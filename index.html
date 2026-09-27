@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'self' https://generativelanguage.googleapis.com https://api.openai.com https://api.anthropic.com; object-src 'none'; base-uri 'none'; form-action 'self';">
+  <meta name="theme-color" content="#f5f7fa">
+  <title>Drawing to BOM</title>
+  <link rel="stylesheet" href="src/ui/styles.css">
+  <script type="module" src="src/ui/app.js"></script>
+</head>
+<body>
+  <main class="container">
+    <header class="app-header">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">⌘</span><div><p class="eyebrow">ENGINEERING WORKFLOW</p><h1>Drawing to BOM</h1><p class="subtitle">Turn a technical drawing into an editable bill of materials.</p></div></div>
+      <button class="btn-settings" id="settingsBtn" type="button" title="Settings" aria-label="Settings" aria-expanded="false" aria-controls="settingsPanel">⚙<span class="key-dot" id="keyDot"></span></button>
+    </header>
+
+    <section class="settings-panel" id="settingsPanel" hidden aria-labelledby="settingsTitle">
+      <div class="section-heading"><div><p class="eyebrow">PREFERENCES</p><h2 id="settingsTitle">API settings</h2></div><span class="settings-icon" aria-hidden="true">⚙</span></div>
+      <p class="section-copy">Add your own provider API key once. It stays in this browser until you remove it or clear site data.</p>
+      <label class="field-label" for="apiKeyInput">API key</label>
+      <div class="api-row"><input id="apiKeyInput" type="password" placeholder="Paste your provider API key" autocomplete="new-password" spellcheck="false"></div>
+      <details class="provider-help"><summary>Advanced: choose provider manually</summary><p class="section-copy">Use this only when automatic detection does not recognize the key format.</p><select id="providerSelect" aria-label="AI provider"><option value="">Automatic detection</option><option value="gemini">Gemini</option><option value="openai">OpenAI</option><option value="anthropic">Anthropic</option></select></details>
+      <div class="key-actions"><button class="button button-primary" id="saveKeyBtn" type="button">Save key</button><button class="button button-quiet" id="removeKeyBtn" type="button">Remove saved key</button><span class="key-status" id="keyStatus" role="status"></span></div>
+      <details class="provider-help"><summary>Where to get an API key</summary><ul><li><a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer">Google AI Studio</a> for Gemini</li><li><a href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer">OpenAI platform</a></li><li><a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noreferrer">Anthropic Console</a></li></ul></details>
+      <aside class="security-note"><strong>Key and drawing privacy</strong><p>This app stores your key in browser local storage, where browser scripts and extensions on this site can access it. Extraction sends the selected image and key directly to the chosen AI provider. For managed secrets or shared accounts, use a server-side API proxy.</p></aside>
+    </section>
+
+    <section class="panel upload-panel" aria-labelledby="uploadTitle">
+      <div class="section-heading"><div><p class="eyebrow">STEP 01</p><h2 id="uploadTitle">Add a drawing</h2></div><span class="step-tag">IMAGE · MAX 10 MB</span></div>
+      <label class="drop-zone" id="dropZone" for="fileInput"><input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp"><span class="drop-icon" aria-hidden="true">↥</span><strong>Drop your drawing here</strong><span>or <span class="browse-link">browse files</span></span><small>JPG, PNG, or WEBP · Image is processed in this tab</small></label>
+      <div class="preview-box" id="previewBox" hidden><img id="previewImg" alt="Selected drawing preview"><div class="preview-info"><span id="previewName"></span><button class="button button-quiet button-danger" id="clearFileBtn" type="button">Remove drawing</button></div></div>
+      <div class="action-row"><button class="button button-primary button-extract" id="extractBtn" type="button" disabled>Extract bill of materials <span aria-hidden="true">→</span></button></div>
+      <div class="status-bar" id="statusBar" role="status" aria-live="polite" hidden></div>
+    </section>
+
+    <section class="panel result-section" id="resultSection" hidden aria-labelledby="resultTitle">
+      <div class="section-heading result-heading"><div><p class="eyebrow">STEP 02</p><h2 id="resultTitle">Review bill of materials</h2><p class="section-copy">Edit the extracted values before exporting.</p></div><span class="badge" id="itemBadge"></span></div>
+      <div class="table-scroll"><table><thead><tr><th>#</th><th>Part / component</th><th>Description</th><th>Qty</th><th>Unit</th><th>Notes / specification</th></tr></thead><tbody id="bomBody"></tbody></table></div>
+      <div class="table-actions"><button class="button button-secondary" id="addRowBtn" type="button">＋ Add row</button><button class="button button-primary" id="exportBtn" type="button">Export CSV <span aria-hidden="true">↓</span></button></div>
+    </section>
+    <footer><span>Drawing to BOM</span><span>Review model results before using them for purchasing or production.</span></footer>
+  </main>
+</body>
+</html>
