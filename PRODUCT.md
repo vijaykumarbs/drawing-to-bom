@@ -1,34 +1,58 @@
-# Drawing to BOM — Product brief
+# Drawing to BOM — Product plan
 
-## Problem and evidence
+## What it does
 
-In manufacturing ERP implementations, item and BOM setup depends on transferring drawing information into structured records. The common workaround is manual transcription into spreadsheets followed by engineering review. It consumes specialist time and creates opportunities for missed callouts, unit mismatches, and ambiguous descriptions to survive into later review stages.
+Drawing to BOM takes an engineering drawing and uses an AI provider to create a draft bill of materials (BOM). The user can review and edit the rows, then download them as CSV.
 
-This is a workflow hypothesis based on common manufacturing master-data handoffs. No customer interview, pilot result, or measured baseline is recorded here. No extraction accuracy or time-saving claim is made.
+The draft is not an approved manufacturing BOM. An engineer must check it against the drawing before anyone uses it.
 
-## Product choice and prioritization
+## Who it is for
 
-Prioritize a reviewable draft BOM from an uploaded drawing, with editable rows and CSV export. This targets the transcription handoff while keeping an engineer in control. Extraction and normalization are the product boundary; approval and ERP loading remain human/system responsibilities.
+An ERP or manufacturing implementation analyst who must prepare item and BOM data from engineering drawings, together with an engineer who can confirm the result.
 
-## Success criteria
+## The problem
 
-With a manufacturing implementation analyst and an engineer, compare the current transcription workflow to a tool-assisted review on an approved representative drawing set. Capture:
+Teams often read part names, numbers, quantities, and units from drawings and type them into a spreadsheet. This takes time and can introduce typing errors. The resulting sheet still needs engineering review before it can be used for ERP setup.
 
-- time to produce an engineer-approved BOM;
-- precision and recall for part number, description, quantity, and unit fields;
-- number and severity of corrections after extraction;
-- whether every final value can be traced to the drawing evidence;
-- cases where drawing quality, symbols, or revisions prevent reliable extraction.
+This is the problem the product is designed to address. No pilot, extraction accuracy, or time savings have been reported.
 
-Set thresholds with the pilot participants before evaluation. Any field without adequate evidence must remain flagged for human review. Publish sample size and drawing limitations with results.
+## First version
 
-## Deferred
+1. Upload a JPG, PNG, or WEBP drawing.
+2. Send the drawing and the user's API key directly to the selected AI provider.
+3. Show the extracted BOM rows in an editable table.
+4. Let the user correct the rows and export a CSV.
 
-- direct PLM/ERP integration, item creation, and production release;
-- multi-page/revision reconciliation and specialized symbol interpretation;
-- automatic approval, tolerance inference, or unsupported accuracy guarantees;
-- regulated drawing retention, team workspaces, and central credentials.
+The API key is saved in browser storage. The drawing goes to the AI provider when extraction starts. Provider rules and charges apply.
 
-## Learning to capture
+## Why this scope
 
-Record which drawing types and fields dominate review effort, common correction patterns, acceptable confidence/evidence presentation, and whether the CSV fits the receiving ERP template. Do not commit customer drawings or identifiers.
+Start with draft extraction, editing, and CSV export. This targets the manual copy step while leaving approval with the engineer. Keep the original drawing available for checking each quantity and description.
+
+## Not included
+
+- creating or approving items in an ERP or product lifecycle system;
+- deciding that a part is safe to manufacture;
+- combining drawing revisions or interpreting every symbol and drawing format;
+- automatic approval of extracted values;
+- shared team accounts or company-managed API keys.
+
+## Pilot and measures
+
+**Status: no pilot run yet.** Use drawings approved for evaluation. Have an analyst prepare BOMs using the current method and with the tool. Have an engineer create the reference list and check both results.
+
+Record:
+
+- minutes until the engineer approves the BOM;
+- correct and incorrect part numbers, descriptions, quantities, and units;
+- number of edits needed after extraction;
+- fields that cannot be traced to a clear place on the drawing.
+
+Agree acceptable error levels with the engineer before the trial. Any unclear value must be marked for review, not treated as correct. Do not publish drawings or claim accuracy or savings without measured results and permission.
+
+## Questions to answer
+
+- Which fields take the longest to transcribe?
+- Which drawing types lead to the most corrections?
+- Can reviewers trace each extracted value back to the drawing?
+- Does the CSV match the format required by the receiving ERP?
