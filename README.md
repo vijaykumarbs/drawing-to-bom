@@ -1,6 +1,12 @@
 # Drawing to BOM
 
-A small, browser-based MVP that extracts an editable bill of materials from an engineering drawing and exports it to CSV.
+# Drawing to BOM
+
+Manufacturing ERP implementations depend on accurate item masters and bills of material. In practice, teams often re-key drawing callouts into spreadsheets, reconcile inconsistent descriptions and units by hand, and ask engineering to review the same fields repeatedly. This creates a slow handoff and leaves transcription errors difficult to trace before item or BOM load.
+
+Drawing to BOM explores whether AI-assisted extraction can turn an engineering drawing into an editable, reviewable BOM draft and CSV export. It does not replace engineering approval or determine production readiness. Product rationale, deferred scope, and proposed pilot measures are in [PRODUCT.md](PRODUCT.md).
+
+**Current evidence status:** no pilot outcomes are recorded in this repository; the potential time and quality benefits remain hypotheses until measured with a manufacturing implementation team.
 
 ## Use it
 
